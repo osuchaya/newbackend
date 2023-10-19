@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
-
+import dotenv from 'dotenv';
 import mongoose, { connect } from "mongoose";
 import routes from "./controllers/index.js";
 import { validationMiddleware } from "./controllers/validation.js";
+dotenv.config();
 
-connect("mongodb://localhost:27017/wyzantDb");
+connect(`mongodb+srv://osuchaya:${process.env.PASSWORD}@cluster0.ywdi1ug.mongodb.net/`);
 
 const app = express();
 const PORT = 3002;
