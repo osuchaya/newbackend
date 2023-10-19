@@ -1,9 +1,13 @@
 import { Router } from "express";
 const router = Router();
 import User from "../models/user.js";
+
+
 //object shape
+
 router.get("/", async (req, res) => {
   try {
+
     const users = await User.find();
     res.status(200).json({
       result: users,
@@ -13,13 +17,43 @@ router.get("/", async (req, res) => {
     res.status(500).json({
       message: "Error!",
     });
+
   }
 });
+
+router.get("/:id", async (req, res) => {
+
+    try {
+       if (req.params.id.length !== 24){
+        res.status(400).json({
+            message: "ID not valid"
+        })
+       }
+      const user = await User.findOne({
+        _id: req.params.id
+      });
+    if (user && user.length > 0) {
+      res.status(200).json({
+        result: user,
+      })
+    } else {
+        res.status(404).json({
+            message: "User not found!"
+        })
+    }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error!",
+      });
+  
+    }
+  });
 
 router.post("/", async (req, res) => {
     const reqData = req.body;
     try {
-        const user = await User.create(reqData);
+        const user = await User.create({...reqData, registeredDate: Date.now()});
         
         res.status(201).json(user)
     } catch (error) {

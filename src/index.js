@@ -3,6 +3,7 @@ import cors from "cors";
 
 import mongoose, { connect } from "mongoose";
 import routes from "./controllers/index.js";
+import { validationMiddleware } from "./controllers/validation.js";
 
 connect("mongodb://localhost:27017/wyzantDb");
 
@@ -21,6 +22,7 @@ app.get("/ping", (req, res) => {
   });
 });
 app.use(express.json());
+// app.use(validationMiddleware);
 app.use(routes);
 
 // app.get('/user/:userid', async (req, res) => {

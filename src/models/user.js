@@ -7,9 +7,13 @@ const userSchema = new Schema({
         required: true,
         trim: true,
     },
+    lastName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
     registeredDate: {
         type: Date,
-        require: true,
         set: function (value) {
             return new Date(value);
         },
